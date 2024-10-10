@@ -1,0 +1,64 @@
+.post {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.post-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.options-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.options-menu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.options-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.like-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.like-button:hover {
+  background-color: #0056b3;
+}
