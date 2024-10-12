@@ -5,6 +5,8 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   position: relative;
+  text-align: left;
+  /* font-size: 18px; */
 }
 
 .post-header {
@@ -46,6 +48,7 @@
 .post-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-top: 8px;
 }
 
@@ -61,4 +64,8 @@
 
 .like-button:hover {
   background-color: #0056b3;
+}
+
+.post-date {
+  margin-left: auto;
 }

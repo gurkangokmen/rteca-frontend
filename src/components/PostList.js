@@ -17,9 +17,13 @@ function PostList() {
     setPosts(posts.filter(post => post.id !== postId));
   };
 
+  const handleUpdatePost = (updatedPost) => {
+    setPosts(posts.map(post => post.id === updatedPost.id ? updatedPost : post));
+  };
+
   const handlePostCreated = (newPost) => {
     if (newPost) {
-      setPosts((prevPosts) => [newPost, ...prevPosts]); // Use functional update to access the latest state
+      setPosts((prevPosts) => [newPost, ...prevPosts]);
     } else {
       console.error('Invalid post data:', newPost);
     }
@@ -28,9 +32,16 @@ function PostList() {
   return (
     <div className="post-list">
       <NewPostForm onPostCreated={handlePostCreated} />
-      {/* <NewPostForm /> */}
       {posts.map(post => (
-        <Post key={post.id} postId={post.id} content={post.content} userId={post.user_id} onDelete={handleDeletePost}/>
+        <Post
+          key={post.id}
+          postId={post.id}
+          content={post.content}
+          userId={post.user_id}
+          date={post.date}
+          onDelete={handleDeletePost}
+          onUpdate={handleUpdatePost}
+        />
       ))}
     </div>
   );

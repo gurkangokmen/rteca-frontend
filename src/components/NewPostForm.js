@@ -12,7 +12,15 @@ function NewPostForm({ onPostCreated }) {
     event.preventDefault();
     const newPost = {
       content: newPostContent,
-      user_id: '550e8400-e29b-41d4-a716-446655440000', // Updated user_id
+      user_id: '550e8400-e29b-41d4-a716-446655440000',
+      date: new Date().toLocaleString('tr-TR', {
+        day: '2-digit',
+        month: 'short',
+        year: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }).replace(',', ''),
     };
 
     fetch(`${process.env.REACT_APP_API}/posts`, {

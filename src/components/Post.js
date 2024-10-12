@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Post.css';
 
-
-
-function Post({ content, postId, userId, onDelete }) {
+function Post({ content, postId, userId, onDelete, onUpdate, date }) {
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedContent, setUpdatedContent] = useState(content);
   const optionsMenuRef = useRef(null);
+
+  useEffect(() => {
+    setUpdatedContent(content);
+  }, [content]);
 
   const handleLike = () => {
     if (isLiked) {
@@ -83,8 +87,35 @@ function Post({ content, postId, userId, onDelete }) {
   };
 
   const handleUpdate = () => {
-    // Implement update functionality
-    console.log('Update post:', postId);
+    setIsEditing(true);
+  };
+
+  const handleUpdateSubmit = () => {
+    fetch(`${process.env.REACT_APP_API}/posts`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: updatedContent,
+        post_id: postId,
+        date: new Date().toLocaleString('tr-TR', {
+          day: '2-digit',
+          month: 'short',
+          year: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }).replace(',', ''),
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setIsEditing(false);
+        console.log('Updated post:', data);
+        onUpdate(data); // Call the onUpdate function passed as a prop
+      })
+      .catch(error => console.error('Error updating post:', error));
   };
 
   const handleDelete = () => {
@@ -115,12 +146,26 @@ function Post({ content, postId, userId, onDelete }) {
           </div>
         )}
       </div>
-      <p>{content}</p>
+      {isEditing ? (
+        <div>
+          <textarea
+            value={updatedContent}
+            onChange={(e) => setUpdatedContent(e.target.value)}
+          />
+          <div>
+            <button onClick={handleUpdateSubmit}>Save</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
+        </div>
+      ) : (
+        <p>{content}</p>
+      )}
       <div className="post-footer">
         <button className="like-button" onClick={handleLike}>
           {isLiked ? 'Unlike' : 'Like'}
         </button>
         <span>{likes} {likes === 1 ? 'Like' : 'Likes'}</span>
+        <div className="post-date">{date}</div>
       </div>
     </div>
   );
