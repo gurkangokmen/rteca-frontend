@@ -69,3 +69,14 @@
 .post-date {
   margin-left: auto;
 }
+
+.comment-button {
+  background-color: #ddedfd;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  margin-left: 8px;
+}

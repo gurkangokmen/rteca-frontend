@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Post.css';
+import CommentSection from './CommentSection';
 
 function Post({ content, postId, userId, onDelete, onUpdate, date }) {
   const [likes, setLikes] = useState(0);
@@ -7,6 +8,7 @@ function Post({ content, postId, userId, onDelete, onUpdate, date }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(content);
+  const [showComments, setShowComments] = useState(false);
   const optionsMenuRef = useRef(null);
 
   useEffect(() => {
@@ -135,6 +137,10 @@ function Post({ content, postId, userId, onDelete, onUpdate, date }) {
       .catch(error => console.error('Error deleting post:', error));
   };
 
+  const toggleComments = () => {
+    setShowComments(!showComments);
+  };
+
   return (
     <div className="post">
       <div className="post-header">
@@ -162,11 +168,15 @@ function Post({ content, postId, userId, onDelete, onUpdate, date }) {
       )}
       <div className="post-footer">
         <button className="like-button" onClick={handleLike}>
-          {isLiked ? 'Unlike' : 'Like'}
+          {isLiked ? '👎 Unlike' : '👍 Like'}
         </button>
         <span>{likes} {likes === 1 ? 'Like' : 'Likes'}</span>
+        <button className="comment-button" onClick={toggleComments}>
+          {showComments ? '📖' : '📘'}
+        </button>
         <div className="post-date">{date}</div>
       </div>
+      {showComments && <CommentSection postId={postId} />}
     </div>
   );
 }
