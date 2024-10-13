@@ -6,12 +6,15 @@
   background-color: #f9f9f9;
   position: relative;
   text-align: left;
-  /* font-size: 18px; */
 }
 
 .post-header {
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
 }
 
 .options-button {
@@ -23,8 +26,8 @@
 
 .options-menu {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 100%;
+  right: 0;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;

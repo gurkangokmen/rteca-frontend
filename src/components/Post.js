@@ -121,24 +121,36 @@ function Post({ content, postId, userId, onDelete, onUpdate, date }) {
   };
 
   const handleDelete = () => {
-    fetch(`${process.env.REACT_APP_API}/posts/${postId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        if (response.ok) {
-          onDelete(postId);
-        } else {
-          console.error('Error deleting post:', response.statusText);
-        }
+    const confirmed = window.confirm('Do you really want to delete this post?');
+    if (confirmed) {
+      fetch(`${process.env.REACT_APP_API}/posts/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch(error => console.error('Error deleting post:', error));
+        .then(response => {
+          if (response.ok) {
+            onDelete(postId);
+          } else {
+            console.error('Error deleting post:', response.statusText);
+          }
+        })
+        .catch(error => console.error('Error deleting post:', error));
+    }
   };
 
   const toggleComments = () => {
     setShowComments(!showComments);
+  };
+
+  const handleShare = () => {
+    const postUrl = `http://localhost:3000/posts/${postId}`;
+    navigator.clipboard.writeText(postUrl)
+      .then(() => {
+        alert('Post URL copied to clipboard!');
+      })
+      .catch(error => console.error('Error copying URL:', error));
   };
 
   return (
@@ -147,6 +159,7 @@ function Post({ content, postId, userId, onDelete, onUpdate, date }) {
         <button className="options-button" onClick={handleOptionsClick}>⋮</button>
         {showOptions && (
           <div className="options-menu" ref={optionsMenuRef}>
+            <button onClick={handleShare}>Share</button>
             <button onClick={handleUpdate}>Update</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
